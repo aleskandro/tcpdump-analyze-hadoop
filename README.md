@@ -4,11 +4,8 @@ The code runs as a standalone python script, or with hadoop.
 
 To run the code without hadoop:
 
-```
-    $ cd src/
-    $ ./start.py </PATH/TO/TCPDUMP.LOG> [-flagsToSelectStatistics]
-
-```
+$ cd src/
+$ ./start.py </PATH/TO/TCPDUMP.LOG> [-flagsToSelectStatistics]
 
 It will take a lot of time for large files
 
@@ -23,16 +20,12 @@ It will take a lot of time for large files
     The code was tested in a Docker container derived from 'sequenceiq/hadoop-docker' hub.docker.com, using a single node hadoop server.
 
     To build and run the container (take care of permissions and SELinux):
-    ```
         $ docker build -t myhadoop .
         $ docker run -v /ABSPATH/TO/THIS/REPO/src/:/code -it myhadoop /etc/bootstrap.sh -bash
-    ```
 
     In the container, to run the analyzer:
-    ```
         # cd /code/
         # ./start.py -H /usr/local/hadoop/share/hadoop/tools/lib/hadoop-streaming-2.7.0.jar </PATH/TO/TCPDUMP.LOG> [-flagsToSelectStatistics]
-    ```
 
 ### Dependencies
 
