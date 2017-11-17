@@ -14,10 +14,12 @@ def map():
     for line in sys.stdin:
         line = line.strip()
         arr = line.split(' ')
+        # No regexp used to improve performances
         src = ".".join(arr[2].split('.')[0:4])
         dst = ".".join(arr[4].split('.')[0:4])
         pckLength = arr[7]
 
+        # Timestamp manipulation starts here cause of the sorting and shuffle datas retrieved in the reducer
         if eTimestamps:
             timestamp = arr[0].split('.')[0].split(':')
             if actualTimestamp is None:
@@ -30,7 +32,7 @@ def map():
             else:
                 packetsCount = packetsCount + 1
 
-        print ('packet\t%s %s %s' % (src, dst, pckLength))
+        print 'packet\t%s %s %s' % (src, dst, pckLength)
 
 if __name__ == '__main__':
     map()

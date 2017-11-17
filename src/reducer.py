@@ -5,12 +5,13 @@ import os
 import threading
 
 
+# Transform the environment variable key to a bool (false by default)
 def _envToBool(key):
     if os.environ.has_key(key):
         return os.environ[key] == '1'
-    else:
-        return False
+    return False
 
+# Return a string to be printed, the same is saved, if it is referenced in a string array (rets), to provide a better way when used in threading
 def topTenSorted(toSort, message, rets):
     i = 0
     ret = '%s\n' % (message)
@@ -24,6 +25,7 @@ def topTenSorted(toSort, message, rets):
         rets.append(ret)
     return ret
 
+# Return a string to be printed, the same is saved, if it is referenced in a string array (rets), to provide a better way when used in threading
 def printTopTenClientsByServers(dictionary, message, rets):
     ret = message + '\n'
     for key, value in dictionary.iteritems():
@@ -39,19 +41,30 @@ def addValueHelper(key, value, dictionary):
         dictionary[key] = dictionary[key] + value
 
 def reduce():
+    # get environment to set what stats to produce
+
     eTopTenClients          = _envToBool('topTenClients')
     ePCounters              = _envToBool('pCounters')
     eTopTenServers          = _envToBool('topTenServers')
     eTopTenClientsByServers = _envToBool('topTenClientsByServers')
+
     currentKey = None
     key = None
+
+    # small/large packets stats variables
     totalPackets = 0
     largePackets = 0
     pLargePackets= 0
+
+    # Dicts for the others stats
     topTenClients = {}
     topTenServers = {}
     topTenClientsByServers = {}
+
+    # 5-minutes interval packets variables
     timestamps = {}
+
+    # threading helper variables
     rets = []
     threads = []
 
@@ -59,11 +72,14 @@ def reduce():
         line = line.strip()
         key, value = line.split('\t', 1)
         if key == 'packet':
+            # Default packet manipulation
             try:
                 src, dst, length = value.split(' ')
                 length = int(length)
             except ValueError:
                 continue
+
+            # Make the stats
             if eTopTenClients:
                 addValueHelper(src, length, topTenClients)
             if eTopTenServers:
@@ -77,6 +93,8 @@ def reduce():
                     topTenClientsByServers[dst] = {}
                 addValueHelper(src, length, topTenClientsByServers[dst])
             continue
+
+        # 5-minutes  interval stats
         if key == 'timestamp':
             try:
                 ts, pc = value.split(' ')
@@ -85,6 +103,7 @@ def reduce():
                 continue
             addValueHelper(ts, pc, timestamps)
 
+    # Final printing
     if ePCounters:
         pLargePackets = float(largePackets) / totalPackets * 100
         print('Total packets: %d - Large packets: %0.2f - Small Packets: %0.2f' % (totalPackets, pLargePackets, 100 - pLargePackets))
