@@ -13,13 +13,10 @@ It will take a lot of time for large files
 ### Hadoop
 
     To get a faster way to quickly analyze the log it could be used hadoop as a distributed framework to process large data sets.
-
     The use of libraries as pandas could not permit, alone, to get Gigabytes (or hundred of GB) processed in a distributed way.
-
     So, considering the manipulation to be done simple (so no needs for pandas) but huge in terms of a huge dataset to analyze, this example was implemented with hadoop and python, using hadoop streaming APIs. Alternatives could be to use pandas, a db as prestoDb and the needed connectors in python to make the import of the data set and the manipulation: this was not considered as fast as hadoop and MapReduce way, in designing and development as first thing.
 
     The code was tested in a Docker container derived from 'sequenceiq/hadoop-docker' hub.docker.com, using a single node hadoop server.
-
     To build and run the container (take care of permissions and SELinux):
     
         $ docker build -t myhadoop .
