@@ -4,10 +4,10 @@ The code runs as a standalone python script, or with hadoop.
 
 To run the code without hadoop:
 
+```
 $ cd src/
-
 $ ./start.py </PATH/TO/TCPDUMP.LOG> [-flagsToSelectStatistics]
-
+```
 It will take a lot of time for large files
 
 ### Hadoop
