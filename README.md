@@ -46,7 +46,6 @@ usage: start.py [-h] [-s] [-c] [-C] [-p] [-t] [-H HADOOP] logFile
 Process tcpdump log files
 
 positional arguments:
-  
   logFile
 
 optional arguments:
@@ -54,30 +53,21 @@ optional arguments:
   -h, --help            show this help message and exit
 
   -s, --serversTopTen   Get a top ten of servers ordered by count of received
-
                         packets
 
   -c, --clientsTopTen   Get a top ten of clients ordered by sent bytes
 
   -C, --clientsTopTenByServers
-
                         Take a top ten of clients sending packets to servers,
-
                         for each server
 
   -p, --generalStatistics
-
                         Counts total packets and large or small packets as
-
                         percentage (large > 500b)
 
   -t, --timestamps      Enable stats on number of packets logged in a period
-
                         of 5 minutes
-
   -H HADOOP, --hadoop HADOOP
-
                         Enable hadoop mapreduce (take the hadoop streaming
-
                         .jar path as argument)
 ```
